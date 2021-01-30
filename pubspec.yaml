@@ -21,3 +21,4 @@ flutter:
 
   assets:
     - html/hello.html
+    - html/hellojs.html

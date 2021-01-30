@@ -85,25 +85,7 @@ html/hello.html
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello</title>
-    <style>
-        #title {
-          font-family:'Lucida Console', Monaco, monospace;
-          /* Safari, Chrome, and Opera */
-          display:-webkit-box;
-          -webkit-box-pack:center;
-          -webkit-box-align:center;
-          color:#543;}
-        #content {
-        font-family:'Lucida Console', Monaco, monospace;
-        font-size:smaller;
-        color:#543;}
-        body {background-color:#f93;}
-    </style>
-</head>
+<!-- ... --->  
 <body>
     <p id=title>Hello webview_flutter!</p>
     <p id=content>1. Put you 'hello.html' in dir like 'html/'.</p>
@@ -187,6 +169,44 @@ Uri.dataFromString
 
 
 ![加载本地文件截图](screenshots/local.png)
+
+## 启用JavaScript
+flutter中的WebView默认是不允许的JavaScript的，javascriptMode的默认值是disable.
+此时如果加载下面的 hellojs.html,
+```html
+<!DOCTYPE html>
+<html lang="en">
+<!-- ... --->  
+<body>
+    <p id=title>Hello webview_flutter!</p>
+    <script>
+        document.getElementById("title").innerHTML = "Hello JavaScript!";
+    </script>
+</body>
+</html>
+```
+你只能看到“Hello webview_flutter!”
+
+要使用js需要我们将WebView的'javascriptMode'设置为'JavascriptMode.unrestricted'。
+```js
+//...
+class JsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      //...
+      body: WebView(
+        javascriptMode: JavascriptMode.unrestricted,
+        //...
+      ),
+    );
+  }
+
+  //...
+}
+```
+这样JS代码将会被执行，你就能看到：
+![启用JS截图](screenshots/js.png)
 
 ## ua设置
 注入js

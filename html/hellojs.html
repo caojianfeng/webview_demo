@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello</title>
+    <style>
+        #title {
+          font-family:'Lucida Console', Monaco, monospace;
+          /* Safari, Chrome, and Opera */
+          display:-webkit-box;
+          -webkit-box-pack:center;
+          -webkit-box-align:center;
+          color:#543;}
+        #content {
+        font-family:'Lucida Console', Monaco, monospace;
+        font-size:smaller;
+        color:#543;}
+        body {background-color:#f93;}
+    </style>
+</head>
+<body>
+    <p id=title>Hello webview_flutter!</p>
+    <script>
+        document.getElementById("title").innerHTML = "Hello JavaScript!";
+    </script>
+</body>
+</html>

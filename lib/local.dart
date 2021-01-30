@@ -23,10 +23,8 @@ class LocalPage extends StatelessWidget {
 
   _loadHtmlFromAssets(webViewController) async {
     String fileText = await rootBundle.loadString('html/hello.html');
-    String content = Uri.dataFromString(fileText,
+    webViewController.loadUrl(Uri.dataFromString(fileText,
             mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
-        .toString();
-    print(content);
-    webViewController.loadUrl(content);
+        .toString());
   }
 }
