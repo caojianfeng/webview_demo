@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class UrlPage extends StatelessWidget {
   @override
@@ -9,8 +10,8 @@ class UrlPage extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: Text("url"),
       ),
-      body: Center(
-        child: Text("UrlPage"),
+      body: WebView(
+        initialUrl: "https://github.com/caojianfeng/webview_demo",
       ),
     );
   }
