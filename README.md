@@ -4,6 +4,7 @@
 
 添加库 webview_flutter
 
+pubspec.yaml:
 ```yaml
 #...
 dependencies:
@@ -71,10 +72,123 @@ android/app/src/main/AndroidManifest.xml:
 
 ```
 
+![加载url截图](screenshots/url.png)
 
 ## 加载本地html
 
-ua设置
+### 添加本地文件
+
+虽然文件可以添加到任意位置，最好还是有个规划。
+这里我们新建html目录，将文件放在这个目录下。
+
+html/hello.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello</title>
+    <style>
+        #title {
+          font-family:'Lucida Console', Monaco, monospace;
+          /* Safari, Chrome, and Opera */
+          display:-webkit-box;
+          -webkit-box-pack:center;
+          -webkit-box-align:center;
+          color:#543;}
+        #content {
+        font-family:'Lucida Console', Monaco, monospace;
+        font-size:smaller;
+        color:#543;}
+        body {background-color:#f93;}
+    </style>
+</head>
+<body>
+    <p id=title>Hello webview_flutter!</p>
+    <p id=content>1. Put you 'hello.html' in dir like 'html/'.</p>
+    <p id=content>2. Def assets in you pubspec.yaml.</p>
+    <p id=content>3. Load html/hello.html.</p>
+</body>
+</html>
+
+```
+
+### assets中声明你的文件
+pubspec.yaml:
+```yaml
+#...
+dependencies:
+  #...
+
+dev_dependencies:
+  #...
+  
+#...
+flutter:
+  #...
+  assets:
+    - html/hello.html
+#...
+```
+一定要注意缩进，assets是flutter的子节点。否则无法将html文件打包。
+
+### 加载文件数据
+
+与加载url不同的是，本地文件的加载需要从assets里面读取数据，
+然后将数据直接传递给webview。
+
+
+```dart
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter/services.dart';
+
+class LocalPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      //...
+      body: WebView(
+        initialUrl: "",
+        onWebViewCreated: (WebViewController webViewController) {
+          _loadHtmlFromAssets(webViewController);
+        },
+      ),
+    );
+  }
+
+  _loadHtmlFromAssets(webViewController) async {
+    String fileText = await rootBundle.loadString('html/hello.html');
+    webViewController.loadUrl(Uri.dataFromString(fileText,
+            mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
+        .toString());
+  }
+}
+
+```
+
+rootBundle.loadString 
+```
+将会加载assets下的html/hello.html文件内容
+```
+
+Uri.dataFromString
+```
+将会对文件内容做utf8编码，生成字符串：“data:text/html;charset=utf-8,【内容utf8编码】”
+如果你愿意还可以进行base64编码。
+```
+
+注意：
+1. initialUrl 需要传入空字符串''或者'about:blank'
+2. onWebViewCreated 你可以拿到WebViewController实例，后面需要通过它设置加载后的html字符串。
+3. 文件的加载则是异步的，_loadHtmlFromAssets 带上 async 。
+
+
+![加载本地文件截图](screenshots/local.png)
+
+## ua设置
 注入js
 交互js->flutter
 交互flutter->js

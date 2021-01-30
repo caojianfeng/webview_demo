@@ -1,17 +1,32 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter/services.dart';
+
+// https://github.com/flutter/plugins/tree/master/packages/webview_flutter
 class LocalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text("local"),
       ),
-      body: Center(
-        child: Text("LocalPage"),
+      body: WebView(
+        initialUrl: "",
+        onWebViewCreated: (WebViewController webViewController) {
+          _loadHtmlFromAssets(webViewController);
+        },
       ),
     );
+  }
+
+  _loadHtmlFromAssets(webViewController) async {
+    String fileText = await rootBundle.loadString('html/hello.html');
+    String content = Uri.dataFromString(fileText,
+            mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
+        .toString();
+    print(content);
+    webViewController.loadUrl(content);
   }
 }
