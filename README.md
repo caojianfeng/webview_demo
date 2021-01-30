@@ -1,16 +1,25 @@
-# webview_demo
+# 玩转flutter的webview
 
-A new Flutter project.
+## 官方库：webview_flutter
 
-## Getting Started
+添加库 webview_flutter
 
-This project is a starting point for a Flutter application.
+```yaml
+#...
+dependencies:
+  flutter:
+    sdk: flutter
+  webview_flutter: ^1.0.0
+#...
+```
+## 加载url
 
-A few resources to get you started if this is your first Flutter project:
+ua设置
+加载本地html
+注入js
+交互js->flutter
+交互flutter->js
+是否弹出浏览器
+处理back
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
