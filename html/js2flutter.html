@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function postMsg(event) {
+            if (window.WebViewReceiver) {
+                window.WebViewReceiver.postMessage('Hello flutter! (from JS)');
+            }
+        }
+    </script>
+    <style>
+      #title {
+        font-family:'Lucida Console', Monaco, monospace;
+        /* Safari, Chrome, and Opera */
+        display:-webkit-box;
+        -webkit-box-pack:center;
+        -webkit-box-align:center;
+        color:#543;}
+      #content {
+      font-family:'Lucida Console', Monaco, monospace;
+      font-size:smaller;
+      color:#543;}
+      #button{
+        position: absolute;
+        width: 200px;
+        height: 80px;
+        margin: -40px 0 0 -100px;
+        top: 50%;
+        left: 50%;
+      }
+      body {background-color:#f93;}
+    </style>
+</head>
+<body>
+    <p id=title>JS -> Flutter</p>
+    <br>
+    <br>
+    <button id=button onclick="postMsg()">发送数据给Flutter</button>
+</body>
+</html>

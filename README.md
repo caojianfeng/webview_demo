@@ -205,14 +205,100 @@ class JsPage extends StatelessWidget {
   //...
 }
 ```
+
 这样JS代码将会被执行，你就能看到：
+
 ![启用JS截图](screenshots/js.png)
 
 ## ua设置
+
 注入js
-交互js->flutter
-交互flutter->js
+
+## 交互js->flutter
+
+webview_flutter中提供了javascriptChannels用于js和dart之间通信。
+
+### 在flutter中接收消息
+首先需要构建JavascriptChannel对象接收消息
+```dart
+  //...
+  _alertJavascriptChannel() {
+    return JavascriptChannel(
+        name: 'WebViewReceiver',
+        onMessageReceived: (JavascriptMessage message) {
+          print('onMessageReceived:${message.message}');
+          this._setMessage(message.message);
+        });
+  }
+  //...
+}
+
+```
+
+之后在创建WebView的时候需要提供javascriptChannels参数。
+
+```dart
+//...
+class _Js2FlutterPageState extends State<Js2FlutterPage> {
+  //...
+  @override
+  Widget build(BuildContext context) {
+    //...
+    return Scaffold(
+      //...
+              child: WebView(
+                //...
+                javascriptChannels:
+                    <JavascriptChannel>[_alertJavascriptChannel()].toSet(),
+              ),
+       //...
+      ),
+    );
+  }
+}
+```
+
+
+### 在js中发送消息
+
+WebView拿到javascriptChannels，并完成初始化。
+JavascriptChannel的name(WebViewReceiver)将会被用来表示一条通道已经建立。
+就像水能够接触到容器，html也受到WebView带给html的变化。
+现在我们在html中调用window.WebViewReceiver.postMessage就可以给flutter发消息了。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--- ...  --->
+    <script>
+        function postMsg(event) {
+            if (window.WebViewReceiver) {
+                window.WebViewReceiver.postMessage('Hello flutter! (from JS)');
+            }
+        }
+    </script>
+   <!--- ...  --->
+</head>
+<body>
+    <!--- ...  --->
+    <button id=button onclick="postMsg()">发送数据给Flutter</button>
+    <!--- ...  --->
+</body>
+</html>
+
+```
+
+
+这样在我们点击html中的按钮的时候，js会发消息给名字叫做“WebViewReceiver”的JavascriptChannel。
+在Dart一侧的JavascriptChannel的onMessageReceived将会被触发，从而我们拿到了js发来的消息。
+![JS To Flutter 截图](screenshots/js2flutter.png)
+
+
+## 交互flutter->js
+
 是否弹出浏览器
+
 处理back
 
 

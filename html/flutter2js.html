@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlutterToJavaScript</title>
+    <style>
+      #title {
+        font-family:'Lucida Console', Monaco, monospace;
+        /* Safari, Chrome, and Opera */
+        display:-webkit-box;
+        -webkit-box-pack:center;
+        -webkit-box-align:center;
+        color:#543;}
+      #content {
+      font-family:'Lucida Console', Monaco, monospace;
+      font-size:smaller;
+      color:#543;}
+      body {background-color:#f93;}
+    </style>
+</head>
+<body>
+    <script>
+      window.receiveMessage = (msg) => {
+         document.getElementById('data').textContent = msg.message;
+      }
+    </script>
+    <p style="text-align: center">测试页</p>
+    <br>
+    <br>
+    
+    <br>
+    <p style="text-align: center">从Flutter收到数据: <span id="data">***</span></span></p>
+</body>
+</html>
