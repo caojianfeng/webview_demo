@@ -15,6 +15,7 @@
       #content {
       font-family:'Lucida Console', Monaco, monospace;
       font-size:smaller;
+      text-align: center;
       color:#543;}
       body {background-color:#f93;}
     </style>
@@ -25,11 +26,8 @@
          document.getElementById('data').textContent = msg.message;
       }
     </script>
-    <p style="text-align: center">测试页</p>
+    <p id=title>Flutter -> JS</p>
     <br>
-    <br>
-    
-    <br>
-    <p style="text-align: center">从Flutter收到数据: <span id="data">***</span></span></p>
+    <p id=content>从Flutter收到数据: <span id="data">***</span></span></p>
 </body>
 </html>
